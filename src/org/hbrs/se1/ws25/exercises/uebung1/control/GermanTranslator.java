@@ -3,12 +3,20 @@ package org.hbrs.se1.ws25.exercises.uebung1.control;
 public class GermanTranslator implements Translator {
 
 	public String date = "Okt/2025"; // Default-Wert
+	public String[] zahlen ={"Eins","Zwei","Drei","Vier","Fünf","Sechs","Sieben","Acht","Neun","Zehn"};
 
 	/**
 	 * Methode zur Übersetzung einer Zahl in eine String-Repraesentation
 	 */
 	 public String translateNumber(int number) {
 		// [ihr Source Code aus Übung 1-2]
+
+		 try {
+			 return zahlen[number-1];
+		 } catch (ArrayIndexOutOfBoundsException e) {
+			 System.out.println("Übersetzung der Zahl " + number + " nicht möglich");
+			 printInfo();
+		 }
 
 		return "null";
 	}
