@@ -13,7 +13,7 @@ public class GermanTranslator implements Translator {
 			 return zahlen[number-1];
 		 } catch (IndexOutOfBoundsException OutOfBounds) {
 			 System.out.println("Übersetzung der Zahl " + number + " nicht möglich");
-			 // return "";
+			 printInfo();
 		 }
 		return "null";
 	}

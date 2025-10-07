@@ -11,15 +11,8 @@ public class Client {
 		 *
 		 */
 		 void display( int aNumber ){
-			// In dieser Methode soll die Methode translateNumber
-			// mit dem übergegebenen Wert der Variable aNumber
-			// aufgerufen werden.
-			//
-			// Strenge Implementierung (nur) gegen das Interface Translator gewuenscht!
 			 Translator t = TranslatorFactory.createGermanTranslator();
-			 System.out.println("Das Ergebnis der Berechnung: " +
-					//"[das Ergebnis an dieser Stelle]");
-					 t.translateNumber(aNumber));
+			 System.out.println("Das Ergebnis der Berechnung: " + t.translateNumber(aNumber));
 		 }
 }
 

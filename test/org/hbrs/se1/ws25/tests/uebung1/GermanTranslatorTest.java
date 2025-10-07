@@ -12,6 +12,12 @@ public class GermanTranslatorTest {
         GermanTranslator translator = new GermanTranslator();
 
         assertEquals("null" , translator.translateNumber(0));
+        assertEquals("Eins" , translator.translateNumber(1));
+        assertEquals("Fünf" , translator.translateNumber(5));
+        assertEquals("Zehn" , translator.translateNumber(10));
+        assertEquals("null" , translator.translateNumber(11));
+        assertEquals("null" , translator.translateNumber(-8));
+        assertEquals("null" , translator.translateNumber(23));
     }
 
 }
