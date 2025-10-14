@@ -5,6 +5,10 @@ public class GermanTranslator implements Translator {
 	public String date = "Okt/2025"; // Default-Wert
 	public String[] zahlen = {"Eins","Zwei","Drei","Vier","Fünf","Sechs","Sieben","Acht","Neun","Zehn"};
 
+	public GermanTranslator() {
+		this.setDate("Okt/2025");
+	}
+
 	/**
 	 * Methode zur Übersetzung einer Zahl in eine String-Repraesentation
 	 */
