@@ -1,4 +1,5 @@
 package org.hbrs.se1.ws25.exercises.uebung3.persistence;
+import java.io.*;
 import java.util.List;
 
 public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
@@ -15,41 +16,54 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     @Override
     /**
      * Method for saving a list of Member-objects to a disk (HDD)
-     * Look-up in Google for further help! Good source:
-     * https://www.digitalocean.com/community/tutorials/objectoutputstream-java-write-object-file
-     * (Last Access: Oct, 13th 2025)
      */
-    public void save(List<E> member) throws PersistenceException  {
+    public void save(List<E> member) throws PersistenceException {
+        if (location == null || location.isEmpty()) {
+            throw new PersistenceException(
+                    PersistenceException.ExceptionType.ConnectionNotAvailable,
+                    "No valid file location defined!"
+            );
+        }
 
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(location))) {
+            oos.writeObject(member);
+        } catch (IOException e) {
+            throw new PersistenceException(
+                    PersistenceException.ExceptionType.ConnectionNotAvailable,
+                    "Error while saving objects: " + e.getMessage()
+            );
+        }
     }
 
     @Override
     /**
      * Method for loading a list of Member-objects from a disk (HDD)
-     * Some coding examples come for free :-)
-     * Take also a look at the import statements above ;-!
      */
-    public List<E> load() throws PersistenceException  {
-        // Some Coding hints ;-)
+    public List<E> load() throws PersistenceException {
+        if (location == null || location.isEmpty()) {
+            throw new PersistenceException(
+                    PersistenceException.ExceptionType.ConnectionNotAvailable,
+                    "No valid file location defined!"
+            );
+        }
 
-        // ObjectInputStream ois = null;
-        // FileInputStream fis = null;
-        // List<...> newListe =  null;
-        //
-        // Initiating the Stream (can also be moved to method openConnection()... ;-)
-        // fis = new FileInputStream( " a location to a file" );
-
-        // Tipp: Use a directory (ends with "/") to implement a negative test case ;-)
-        // ois = new ObjectInputStream(fis);
-
-        // Reading and extracting the list (try .. catch ommitted here)
-        // Object obj = ois.readObject();
-
-        // if (obj instanceof List<?>) {
-        //       newListe = (List) obj;
-        // return newListe
-
-        // and finally close the streams
-        return null;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(location))) {
+            Object obj = ois.readObject();
+            if (obj instanceof List<?>) {
+                @SuppressWarnings("unchecked")
+                List<E> newList = (List<E>) obj;
+                return newList;
+            } else {
+                throw new PersistenceException(
+                        PersistenceException.ExceptionType.ImplementationNotAvailable,
+                        "Loaded object is not of type List!"
+                );
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            throw new PersistenceException(
+                    PersistenceException.ExceptionType.ConnectionNotAvailable,
+                    "Error while loading objects: " + e.getMessage()
+            );
+        }
     }
 }
