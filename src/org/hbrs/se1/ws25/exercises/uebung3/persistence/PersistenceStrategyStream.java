@@ -14,9 +14,7 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     }
 
     @Override
-    /**
-     * Method for saving a list of Member-objects to a disk (HDD)
-     */
+    // Methode um Memberliste von HDD zu lesen
     public void save(List<E> member) throws PersistenceException {
         if (location == null || location.isEmpty()) {
             throw new PersistenceException(
@@ -24,7 +22,10 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
                     "No valid file location defined!"
             );
         }
-
+//         Try-with-Resources
+//         Öffnet Ressourcen im Try(...) und schließt sie automatisch.
+//         Dadurch ist kein Finaly{} nötig, in dem die Ressource geschlössen wird
+//         Ist weniger Fehleranfällig
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(location))) {
             oos.writeObject(member);
         } catch (IOException e) {
@@ -36,9 +37,7 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     }
 
     @Override
-    /**
-     * Method for loading a list of Member-objects from a disk (HDD)
-     */
+    // Methode um Memberliste auf HDD zu schreiben
     public List<E> load() throws PersistenceException {
         if (location == null || location.isEmpty()) {
             throw new PersistenceException(

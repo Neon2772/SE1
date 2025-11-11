@@ -2,14 +2,20 @@ package org.hbrs.se1.ws25.exercises.uebung3.persistence;
 import java.util.ArrayList;
 
 public class Container {
+    // Singleton Pattern, um immer nur eine Instanz dieser Klasse zu haben
+    // Dadurch würden alle Klassen, die einen Container nutzen, auf den SELBEN Container zugreifen
     ArrayList<Member> memberList;
     private PersistenceStrategy<Member> strategy;
+    // Der eine Container wird zur Klassen-Variable und ist damit keine Instanz-Variable, also gibt es den Container
+    // immer nur genau ein Mal!
     private static Container container = new Container();
 
+    // Container kann jetzt nur noch innerhalb der eigenen Klasse erstellt werden
     private Container(){
         this.memberList = new ArrayList();
     }
 
+    // "Ersetzt" den Konstruktor. Bestellt die Klassenvariable "container" bereit
     public static Container getContainerInstance(){
         return container;
     }
@@ -37,10 +43,10 @@ public class Container {
         for(Member m : memberList) {
             if(m.getID() == id) {
                 memberList.remove(m);
-                return "Deleted Member with ID: " + id;
+                return "Lösche Member mit ID: " + id;
             }
         }
-        return "Member not part of the memberlist";
+        return "Member nicht Teil der Memberliste";
 
         /*
          * Statement zur Fehlerbehandlung:
